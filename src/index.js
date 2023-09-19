@@ -5,8 +5,9 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 //  PAGES
-import Room from "./pages/Room/Room";
+import OpenRoom from "./pages/OpenRoom/OpenRoom";
 import CreateARoom from "./pages/CreateARoom/CreateARoom";
+import Room from "./pages/WaitingRoom/WaitingRoom";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
@@ -27,8 +28,8 @@ const router = createBrowserRouter([
     // errorElement: <ErrorPage />,
     children: [
       {
-        path: "/room",
-        element: <Room />,
+        path: "/newroom",
+        element: <OpenRoom />,
       },
       {
         path: "/signup",
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/createroom",
         element: <CreateARoom />,
+      },
+      {
+        path: "/room",
+        element: <Room />,
       },
     ],
   },

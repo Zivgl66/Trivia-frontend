@@ -36,6 +36,26 @@ const Room = () => {
     }
   };
 
+  const openNewGameRoom = (e) => {
+    e.preventDefault();
+    axios
+      .get("/rooms/")
+      .then((res) => {
+        if (res.data.status === "success") {
+          console.log(res.data.message);
+          localStorage.setItem("@roomCode", res.data.roomCode);
+          notify(res.data.roomCode);
+          navigate("/room");
+        } else {
+          notify(res.data.message);
+          console.log(res.data.message);
+        }
+      })
+      .catch((err) => {
+        console.log("error axios: ", err);
+      });
+  };
+
   return (
     <div className="container d-flex flex-column justify-content-center align-item-center">
       <div className="room-pin mt-5">
@@ -58,10 +78,7 @@ const Room = () => {
         Join Game
       </button>
       <h1 className="text-center mt-2 fw-bold">OR</h1>
-      <button
-        className="btn bg-primary btn-lg mt-2 "
-        onClick={() => navigate("/createroom")}
-      >
+      <button className="btn bg-primary btn-lg mt-2 " onClick={openNewGameRoom}>
         Start Game
       </button>
     </div>

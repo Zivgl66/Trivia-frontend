@@ -1,6 +1,6 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import Room from "./pages/Room/Room";
+// import Room from "./pages/Room/Room";
 import { Outlet } from "react-router-dom";
 
 function App() {
