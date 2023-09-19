@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../utils/functions";
 
-const Room = () => {
+const Home = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState();
 
@@ -78,11 +78,14 @@ const Room = () => {
         Join Game
       </button>
       <h1 className="text-center mt-2 fw-bold">OR</h1>
-      <button className="btn bg-primary btn-lg mt-2 " onClick={openNewGameRoom}>
-        Start Game
+      <button
+        className="btn bg-primary btn-lg mt-2 "
+        onClick={() => navigate("/login")}
+      >
+        Login
       </button>
     </div>
   );
 };
 
-export default Room;
+export default Home;

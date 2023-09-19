@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
 import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
 
-const Signup = () => {
+const GuestSignUp = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -111,4 +111,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default GuestSignUp;
