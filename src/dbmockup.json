@@ -1,0 +1,11 @@
+{
+  "questions": [
+    {
+      "name": "question number 1",
+      "type": "YesOrNo",
+      "question": "Are you a cat?",
+      "options": [],
+      "answer": true
+    }
+  ]
+}

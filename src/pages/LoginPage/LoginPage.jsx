@@ -41,8 +41,12 @@ const LoginPage = () => {
 
   return (
     <div className="container d-flex flex-column justify-content-center align-item-center mt-5">
-      <h3>If you dont have a user already, please signup</h3>
-      <h1>Login</h1>
+      <div className="login-text text-center">
+        <h3 className="">
+          If you dont have a user already, please <a href="/signup">signup</a>
+        </h3>
+        <h1>Login</h1>
+      </div>
       <form className="d-flex flex-column mt-3">
         <div className="mb-3">
           <input
