@@ -15,7 +15,7 @@ const Home = () => {
         if (res.data.status === "success") {
           console.log(res.data.message);
           notify("Joined Room, pick a username");
-          navigate("/signup");
+          navigate("/guestsignup");
         } else {
           notify(res.data.message);
           console.log(res.data.message);

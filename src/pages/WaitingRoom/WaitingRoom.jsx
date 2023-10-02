@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 const Room = () => {
   const [roomCode, setRoomCode] = useState("");
+  const [guests, setGuests] = useState([]);
+
   useEffect(() => {
     let room = localStorage.getItem("@roomCode");
     setRoomCode(room);

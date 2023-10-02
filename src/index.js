@@ -1,6 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
+// changes start here -
 import axios from "axios";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import reducers from "./reducers";
+// changed end here
+
 import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -11,6 +19,7 @@ import Room from "./pages/WaitingRoom/WaitingRoom";
 import GuestSignUp from "./pages/GuestSignUp/GuestSignUp";
 import SignUp from "./pages/SignUp/SignUp";
 import ControlRoom from "./pages/ControlRoom/ControlRoom";
+import WaitingRoom from "./pages/WaitingRoom/WaitingRoom";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
@@ -20,8 +29,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/LoginPage/LoginPage";
 
-//  Default url axios
+// //  Default url axios
 axios.defaults.baseURL = "http://localhost:3001/api/";
+
+const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 const router = createBrowserRouter([
   {
@@ -58,14 +69,20 @@ const router = createBrowserRouter([
         path: "/room",
         element: <Room />,
       },
+      {
+        path: "/waitingRoom",
+        element: <WaitingRoom />,
+      },
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-    <ToastContainer />
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </React.StrictMode>
+  </Provider>
 );

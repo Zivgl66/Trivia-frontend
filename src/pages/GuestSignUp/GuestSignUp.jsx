@@ -30,21 +30,20 @@ const GuestSignUp = () => {
   //  After submiting - send post request and add a new user, if ok - navigate to the game room
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newUser = {
+    let newGuest = {
       username,
       profileImage: profileP,
-      isAdmin: false,
       isManager: false,
       numberOfRights: 0,
       numberOfRightsInARow: 0,
     };
     axios
-      .post("/users", newUser)
+      .post("/guests", newGuest)
       .then((res) => {
         console.log(res.data.message);
         if (res.data.status === "ok") {
           console.log(res.data.message);
-          navigate("/");
+          navigate("/waitingroom");
         } else {
           console.log(res.data.message);
         }
