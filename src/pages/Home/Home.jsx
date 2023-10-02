@@ -59,8 +59,20 @@ const Home = () => {
 
   return (
     <div>
-      {/* Add a CSS class to define the container */}
-      <div class=" container-short">
+      <h1 className="neonText"> Bachelor Quiz </h1>
+      <div class="container">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Game PIN"
+          value={roomCode}
+          onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+          maxLength={4}
+        ></input>
+      </div>
+      <button class="button-join"> Enter</button>
+
+      {/* <div class=" container-short">
         <form>
           <img id="logo-image" src={logo} alt="Image Description"></img>
           <div class="form-floatin mb-3 container">
@@ -75,7 +87,7 @@ const Home = () => {
             <button class="button-join"> Enter</button>
           </div>
         </form>
-      </div>
+      </div> */}
       <footer>
         <p id="line-create">
           To create a game{" "}

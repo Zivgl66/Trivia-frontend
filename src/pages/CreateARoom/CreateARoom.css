@@ -1,0 +1,8 @@
+.container {
+  height: 4.5vh;
+  width: 40% !important;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 0.5rem;
+  margin: 4px;
+  position: relative;
+}

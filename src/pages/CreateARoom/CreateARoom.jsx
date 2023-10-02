@@ -50,7 +50,7 @@ const CreateARoom = () => {
       });
   };
   return (
-    <div className="container d-flex flex-column justify-content-center align-item-center mt-5">
+    <div className="co">
       <form action="">
         <input
           type="number"

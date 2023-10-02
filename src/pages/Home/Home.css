@@ -1,45 +1,184 @@
-.container-short {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
-.container {
-  background-color: rgba(117, 110, 110, 0.9);
-  border-radius: 4px;
-  max-width: 50% !important;
-  max-height: 20% !important;
-  /* You can adjust the height as needed */
-  overflow-y: auto;
-  /* Add scrollbars if the content overflows the container */
+:root {
+  --clr-neon: hsl(115, 76%, 53%);
+  --clr-bg: hsl(125, 51%, 35%);
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
+:root {
+  --clr-1: #052b2f;
+  --clr-2: #073438;
+  --clr-3: #0e4b50;
+  --clr-4: #2d8f85;
+  --clr-5: #637c54;
+}
+
+.container {
+  height: 4.5vh;
+  width: 40% !important;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 0.5rem;
+  margin: 4px;
+  position: relative;
+}
+
+.container::before,
+.container::after {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+  height: 130%;
+
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--clr-3),
+    var(--clr-4),
+    var(--clr-5),
+    var(--clr-4),
+    var(--clr-3)
+  );
+  opacity: 0.8;
+  border-radius: inherit;
+  animation: rotation 4s linear infinite;
+}
+
+.container::after {
+  filter: blur(3.5rem);
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+h1 {
+  font-size: 4.2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.neonText {
+  animation: flicker 1.5s infinite alternate;
+  color: #fff;
+  font-size: 100px;
+  text-align: center;
+  margin: 30px;
+  font-family: "Vibur", sans-serif;
+}
+/* Flickering animation */
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
+      0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+@media (max-width: 768px) {
+  .neonText {
+    font-size: 80px;
+  }
+  h1 {
+    font-size: 3.5rem;
+  }
+}
 .logo {
   margin-bottom: 20px;
 }
 
 .form-control {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 10px auto;
+  background-color: #b1dbbda6 !important;
+  padding: 10px;
   text-align: center;
   height: 1;
   box-shadow: inset;
+  font-weight: bold !important;
+  color: #b1dbbda6 !important;
 }
 
 .button-join {
-  padding: 10px auto;
-  margin-bottom: 10px;
+  /* padding: 10px auto;
   border-radius: 5px;
   height: 40px;
-  width: 100%;
-  background-color: rgb(75, 165, 250);
+  width: 100%; */
+  /* background-color: rgb(169, 43, 180); */
+  position: absolute;
+  margin-left: 30%;
+  margin-top: 10px;
+  width: 40%;
+  opacity: 0.8;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--clr-neon);
+  background-color: #073438;
+  border: var(--clr-neon) 0.125em solid;
+  padding: 0.25em 1em;
+  border-radius: 0.25em;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+  position: relative;
+}
+
+.button-join::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 2em 0.5em var(--clr-neon);
+  opacity: 0;
+  background-color: var(--clr-neon);
+  z-index: -1;
+  transition: opacity 100ms linear;
+}
+.button-join:hover,
+.button-join:focus {
+  color: var(--clr-bg);
+  text-shadow: none;
+}
+
+.button-join:hover::before,
+.button-join:focus::before {
+  opacity: 1;
+}
+.button-join:hover::after,
+.button-join:focus::after {
+  opacity: 1;
 }
 
 #line-create {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   text-align: center;
   font-size: large;
+  color: #fff;
 }
 #create-game {
   text-decoration: none;
