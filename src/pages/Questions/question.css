@@ -1,0 +1,58 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    background-color: #404040;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+/* Quiz container styles */
+.quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Question styles */
+.question {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Answer choice styles */
+.answer-choice {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.choice {
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.choice:hover {
+    background-color: #45a049;
+}
+
+/* Timer styles */
+.timer {
+    margin-top: 20px;
+    font-size: 18px;
+}

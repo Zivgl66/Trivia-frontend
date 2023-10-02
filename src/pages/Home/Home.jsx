@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../utils/functions";
-
+import "./Home.css"; // Import the CSS file
+import logo from "../../assets/logoNoBackground.png";
 const Home = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState();
@@ -57,33 +58,32 @@ const Home = () => {
   };
 
   return (
-    <div className="container d-flex flex-column justify-content-center align-item-center">
-      <div className="room-pin mt-5">
-        <form action="">
-          <input
-            type="text"
-            className="form-control fs-3 text-center"
-            placeholder="Enter 4 Digit Code"
-            maxLength="4"
-            onInput={maxLengthCheck}
-            value={roomCode}
-            onChange={(e) => setRoomCode(e.target.value)}
-          />
+    <div>
+      {/* Add a CSS class to define the container */}
+      <div class=" container-short">
+        <form>
+          <img id="logo-image" src={logo} alt="Image Description"></img>
+          <div class="form-floatin mb-3 container">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Game PIN"
+              value={roomCode}
+              onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+              maxLength={4}
+            ></input>
+            <button class="button-join"> Enter</button>
+          </div>
         </form>
       </div>
-      <button
-        className="bg-danger btn  btn-lg mt-2 animate__animated animate__pulse animate__infinite"
-        onClick={signIn}
-      >
-        Join Game
-      </button>
-      <h1 className="text-center mt-2 fw-bold">OR</h1>
-      <button
-        className="btn bg-primary btn-lg mt-2 "
-        onClick={() => navigate("/login")}
-      >
-        Login
-      </button>
+      <footer>
+        <p id="line-create">
+          To create a game{" "}
+          <a href="/home" id="create-game">
+            click here
+          </a>
+        </p>
+      </footer>
     </div>
   );
 };

@@ -1,0 +1,47 @@
+.container-short {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.container {
+  background-color: rgba(117, 110, 110, 0.9);
+  border-radius: 4px;
+  max-width: 50% !important;
+  max-height: 20% !important;
+  /* You can adjust the height as needed */
+  overflow-y: auto;
+  /* Add scrollbars if the content overflows the container */
+}
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px auto;
+  text-align: center;
+  height: 1;
+  box-shadow: inset;
+}
+
+.button-join {
+  padding: 10px auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  height: 40px;
+  width: 100%;
+  background-color: rgb(75, 165, 250);
+}
+
+#line-create {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-align: center;
+  font-size: large;
+}
+#create-game {
+  text-decoration: none;
+  font-weight: bold;
+}
