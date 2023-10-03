@@ -4,7 +4,11 @@ import jwt_decode from "jwt-decode";
 import data from "../../dbmockup.json";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { createRoom } from "../../actions/room";
+import {
+  CREATE_ROOM,
+  FETCH_ROOM,
+  ADD_PLAYER,
+} from "../../constants/actionTypes";
 
 //components
 import GameCube from "../../components/GameCube/GameCube";
@@ -16,6 +20,7 @@ const ControlRoom = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("@user")));
   const [loading, setLoading] = useState(true);
   const [gamesArray, setGameArray] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -40,12 +45,13 @@ const ControlRoom = () => {
   const startGame = (id) => {
     console.log("game id: " + id);
     axios
-      .post("/rooms", { gameId: id })
+      .post("/rooms", { hostId: user.id, gameId: id })
       .then((res) => {
         console.log(res.data.message);
         if (res.data.status === "success") {
-          console.log(res.data.message);
-          navigate("/waitingRoom");
+          console.log(res.data.room);
+          dispatch({ type: CREATE_ROOM, payload: res.data.room });
+          navigate("/room");
         } else {
           console.log(res.data.message);
         }

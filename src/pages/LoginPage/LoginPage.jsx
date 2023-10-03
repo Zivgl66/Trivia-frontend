@@ -28,8 +28,6 @@ const LoginPage = () => {
       .post("/users/login", user)
       .then((res) => {
         console.log(res.data.token);
-        // localStorage.setItem("@token", res.data);
-        // let user = jwt_decode(res.data);
         if (res.data.message == "success") {
           console.log("in in in ");
           dispatch({ type: LOGIN, payload: res.data.token });
