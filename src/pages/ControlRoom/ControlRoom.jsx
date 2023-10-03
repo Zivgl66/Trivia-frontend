@@ -1,22 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import data from "../../dbmockup.json";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { createRoom } from "../../actions/room";
+
+//components
 import GameCube from "../../components/GameCube/GameCube";
 import Loader from "../../components/Loader/Loader";
-import axios from "axios";
 
 const ControlRoom = () => {
   const navigate = useNavigate();
-
+  const socket = useSelector((state) => state.socket.socket);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("@user")));
   const [loading, setLoading] = useState(true);
   const [gamesArray, setGameArray] = useState([]);
 
   useEffect(() => {
-    setGameArray(data.games);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  });
+    axios
+      .get(`/games/usergames/${user.id}`)
+      .then((res) => {
+        console.log(res);
+        if (res.data.message === "success") {
+          setGameArray(res.data.games);
+        }
+      })
+      .catch((err) => {
+        console.error("error from axios " + err);
+      });
+    console.log("games: " + gamesArray);
+    setLoading(false);
+  }, []);
 
   const handleClick = () => {
     console.log(gamesArray);
@@ -44,6 +59,7 @@ const ControlRoom = () => {
   ) : (
     <div className="container d-flex flex-column justify-content-center">
       <h1 className="text-center fs-3 mt-5 mb-5">Control Room</h1>
+      <h2>Hello {user.name}</h2>
       <div className="games align-self-center">
         {gamesArray.map((game, index) => {
           return (

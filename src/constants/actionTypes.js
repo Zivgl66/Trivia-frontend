@@ -18,12 +18,13 @@ export const DELETE_USER = "DELETE_USER";
 export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 
 export const AUTH = "AUTH";
+export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 
 export const CHANGE_LANGUAGE = "CHANGE_LANGUAGE";
 
-export const CREATE_GAME = "CREATE_GAME";
-export const FETCH_GAME = "FETCH_GAME";
+export const CREATE_ROOM = "CREATE_ROOM";
+export const FETCH_ROOM = "FETCH_ROOM";
 export const ADD_PLAYER = "ADD_PLAYER";
 
 export const CREATE_PLAYER_RESULT = "CREATE_PLAYER_RESULT";

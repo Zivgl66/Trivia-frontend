@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Modal from "@mui/material/Modal";
-import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
-import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
+import { LOGIN } from "../../constants/actionTypes";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [profileP, setProfileP] = useState(profileImg);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   //  If theres a profile picture and username, let user press join button
   useEffect(() => {
-    if (password != "" && username != "") {
+    if (password !== "" && username !== "") {
       setIsDisabled(false);
     } else setIsDisabled(true);
   }, [password, username]);
@@ -30,9 +27,14 @@ const LoginPage = () => {
     axios
       .post("/users/login", user)
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("@token", res.data);
-        navigate("/controlroom");
+        console.log(res.data.token);
+        // localStorage.setItem("@token", res.data);
+        // let user = jwt_decode(res.data);
+        if (res.data.message == "success") {
+          console.log("in in in ");
+          dispatch({ type: LOGIN, payload: res.data.token });
+          navigate("/controlroom");
+        }
       })
       .catch((err) => {
         console.error(err);

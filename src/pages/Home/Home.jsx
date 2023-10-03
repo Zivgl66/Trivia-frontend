@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { notify } from "../../utils/functions";
 import "./Home.css"; // Import the CSS file
 import glass from "../../assets/glass-removebg-preview.png";
+import { addPlayer } from "../../actions/room";
+
 const Home = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState();
+  const socket = useSelector((state) => state.socket.socket);
 
-  const signIn = (e) => {
+  const JoinRoom = (e) => {
     e.preventDefault();
     axios
       .post("/rooms/enterroom", { roomCode: roomCode })
@@ -25,6 +29,11 @@ const Home = () => {
       .catch((err) => {
         console.log("error axios: ", err);
       });
+  };
+
+  const joinGame = (e) => {
+    e.preventDefault();
+    socket.emit();
   };
   // const enteringGuest = (e) => {
   //   if (roomCode.length == 4) {
@@ -73,8 +82,7 @@ const Home = () => {
           maxLength={4}
         ></input>
 
-        <button className="button-join" onClick={signIn}>
-          {" "}
+        <button className="button-join" onClick={JoinRoom}>
           Enter
         </button>
       </div>
@@ -82,7 +90,7 @@ const Home = () => {
 
       <footer>
         <p id="line-create">
-          To create a game{" "}
+          To create a game
           <a href="/home" id="create-game" onClick={createGame}>
             click here
           </a>
