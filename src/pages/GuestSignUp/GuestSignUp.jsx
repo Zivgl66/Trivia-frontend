@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
 import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
-
+import "./GuestSignUp.css";
 const GuestSignUp = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -54,11 +54,14 @@ const GuestSignUp = () => {
   };
 
   return (
-    <div className="container d-flex flex-column justify-content-center align-item-center mt-5">
+    <div className="container-guest">
+      <fieldset>
+        <legend>Wash Your Hands</legend>
+      </fieldset>
       <img
         src={profileP}
         alt=""
-        className="w-25 rounded-circle border border-black align-self-center  border-2 img-fluid"
+        className=""
         // style={{ transitionDuration: "all 3s ease-out" }}
       />
       <form className="d-flex flex-column mt-3">

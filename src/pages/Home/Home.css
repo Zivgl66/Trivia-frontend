@@ -1,0 +1,151 @@
+:root {
+  --clr-neon: hsl(115, 76%, 53%);
+  --clr-bg: hsl(125, 51%, 35%);
+}
+
+:root {
+  --clr-1: #052b2f;
+  --clr-2: #073438;
+  --clr-3: #0e4b50;
+  --clr-4: #2d8f85;
+  --clr-5: #637c54;
+}
+
+.neonText {
+  animation: flicker 1.5s infinite alternate;
+  color: #fff;
+  border: 6px solid #fff;
+  border-radius: 2rem;
+  font-size: 100px;
+  padding: 10px;
+  text-align: center;
+  margin: 60px;
+  font-family: "Vibur", sans-serif;
+}
+/* Flickering animation */
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
+      0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
+    box-shadow: 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
+      0 0 80px #0fa;
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+    box-shadow: none;
+  }
+}
+
+.all-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.container {
+  height: 4.5vh;
+  width: 40% !important;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 0.5rem;
+  margin: 4px;
+  position: relative;
+
+  margin-bottom: 60px;
+}
+
+@media (max-width: 768px) {
+  .neonText {
+    font-size: 80px;
+  }
+}
+.logo {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  background-color: #b1dbbda6 !important;
+  padding: 10px;
+  text-align: center;
+  height: 1;
+  box-shadow: inset;
+  font-weight: bold !important;
+  color: #000000a6 !important;
+}
+
+.button-join {
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+  opacity: 0.8;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--clr-neon);
+  background-color: #073438;
+  border: var(--clr-neon) 0.125em solid;
+  padding: 0.25em 1em;
+  border-radius: 0.25em;
+  text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em currentColor;
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+}
+
+.button-join::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 2em 0.5em var(--clr-neon);
+  opacity: 0;
+  background-color: var(--clr-neon);
+  z-index: -1;
+  transition: opacity 100ms linear;
+}
+.button-join:hover,
+.button-join:focus {
+  color: var(--clr-bg);
+  text-shadow: none;
+}
+
+.button-join:hover::before,
+.button-join:focus::before {
+  opacity: 1;
+}
+.button-join:hover::after,
+.button-join:focus::after {
+  opacity: 1;
+}
+
+#line-create {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-align: center;
+  font-size: large;
+  color: #fff;
+}
+#create-game {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.glass-image {
+  top: 20%;
+  left: 4%;
+  position: absolute;
+  transform: translate(-100%, -50%);
+}
+
+@media (max-width: 1200px) {
+  .glass-image {
+    display: none;
+  }
+}

@@ -5,5 +5,48 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Assistant', sans-serif;
+  font-family: "Assistant", sans-serif;
+}
+
+:root {
+  --clr-1: #050b0c;
+  --clr-2: #125d64;
+  --clr-3: #0e4b50;
+  --clr-4: #2d8f85;
+  --clr-5: #637c54;
+}
+body {
+  background: linear-gradient(
+    90deg,
+    var(--clr-1),
+    var(--clr-2),
+    var(--clr-3),
+    var(--clr-4),
+    var(--clr-1)
+  ) !important;
+  min-height: 100vh;
+  display: grid;
+  /* place-content: center; */
+}
+
+body::before {
+  background-image: url("https://cdn.pixabay.com/photo/2017/02/12/12/42/wall-2059909_640.png");
+  content: "";
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.78;
+  z-index: -1;
+}
+@media (max-width: 768px) {
+  .back {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+    min-width: 100vw;
+  }
 }
