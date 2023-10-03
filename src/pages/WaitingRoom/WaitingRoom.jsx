@@ -1,58 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "./WaitingRoom.css"; // Import the CSS file
+import axios from "axios";
 
-const users = [
-  { name: "User 1", image: "user1.jpg" },
-  { name: "User 2", image: "user2.jpg" },
-];
-
-const Room = () => {
+const WaitingRoom = () => {
   const [roomCode, setRoomCode] = useState("");
+
   useEffect(() => {
     let room = localStorage.getItem("@roomCode");
-    setRoomCode(room);
+    setRoomCode(roomCode);
+  });
+  // Event handler for when a new user joins
+  axios.on("user-joined", (user) => {
+    // Add the new user's name to the user list
+    const userList = document.getElementById("user-list");
+    const listItem = document.createElement("li");
+    listItem.textContent = user.name; // Assuming user.name contains the user's name
+    userList.appendChild(listItem);
   });
 
-  // Function to add a new user card
-  function addUser(user) {
-    const userList = document.getElementById("userList");
-
-    const userCard = document.createElement("div");
-    userCard.classList.add("user-card");
-
-    const userImage = document.createElement("img");
-    userImage.src = user.image;
-    userImage.alt = user.name;
-
-    const userName = document.createElement("h2");
-    userName.textContent = user.name;
-
-    userCard.appendChild(userImage);
-    userCard.appendChild(userName);
-
-    userList.appendChild(userCard);
-  }
-  // Simulate a new user entering every 5 seconds (for demonstration)
-  setInterval(() => {
-    const newUser = { name: "New User", image: "newuser.jpg" };
-    addUser(newUser);
-  }, 5000);
-
-  // Initial population of users
-  users.forEach((user) => {
-    addUser(user);
+  // Handle disconnect event if needed
+  axios.on("disconnect", () => {
+    // Handle user disconnection
   });
   return (
     <div>
       <h1>Game Room</h1>
-      <h2>Share this code: {roomCode}</h2>
-      <div class="waiting-room">
-        <h1>Welcome to the Waiting Room</h1>
-        <div class="user-list" id="userList"></div>
+      <h2>Share this code: </h2>
+      <div id="waiting-room">
+        <h1>Waiting Room</h1>
+        <ul id="user-list"></ul>
       </div>
       <script src="script.js"></script>
     </div>
   );
 };
 
-export default Room;
+export default WaitingRoom;

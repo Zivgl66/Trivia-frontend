@@ -11,6 +11,7 @@ import Room from "./pages/WaitingRoom/WaitingRoom";
 import GuestSignUp from "./pages/GuestSignUp/GuestSignUp";
 import SignUp from "./pages/SignUp/SignUp";
 import ControlRoom from "./pages/ControlRoom/ControlRoom";
+import WaitingRoom from "./pages/WaitingRoom/WaitingRoom";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "/room",
         element: <Room />,
+      },
+      {
+        path: "/waitingroom",
+        element: <WaitingRoom />,
       },
     ],
   },

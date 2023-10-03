@@ -14,9 +14,12 @@
 .neonText {
   animation: flicker 1.5s infinite alternate;
   color: #fff;
+  border: 6px solid #fff;
+  border-radius: 2rem;
   font-size: 100px;
+  padding: 10px;
   text-align: center;
-  margin: 30px;
+  margin: 60px;
   font-family: "Vibur", sans-serif;
 }
 /* Flickering animation */
@@ -27,14 +30,27 @@
   100% {
     text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
       0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa, 0 0 150px #0fa;
+    box-shadow: 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa,
+      0 0 80px #0fa;
   }
   20%,
   24%,
   55% {
     text-shadow: none;
+    box-shadow: none;
   }
 }
 
+.all-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
 .container {
   height: 4.5vh;
   width: 40% !important;
@@ -42,6 +58,7 @@
   border-radius: 0.5rem;
   margin: 4px;
   position: relative;
+
   margin-bottom: 60px;
 }
 
@@ -121,16 +138,14 @@
 }
 
 .glass-image {
-  left: 30px;
-  top: 0;
+  top: 20%;
+  left: 4%;
   position: absolute;
-  height: auto;
-  transform-origin: bottom left;
+  transform: translate(-100%, -50%);
 }
 
 @media (max-width: 1200px) {
   .glass-image {
-    left: 0;
-    top: 400px;
+    display: none;
   }
 }
