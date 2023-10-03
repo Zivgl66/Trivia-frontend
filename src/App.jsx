@@ -10,12 +10,12 @@ import { Outlet } from "react-router-dom";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const socket = io("http://localhost:3001");
-    dispatch(createSocket(socket));
+  // useEffect(() => {
+  //   const socket = io("http://localhost:3001");
+  //   dispatch(createSocket(socket));
 
-    return () => socket.disconnect();
-  }, [dispatch]);
+  //   return () => socket.disconnect();
+  // }, [dispatch]);
 
   return (
     <div className="App">

@@ -22,7 +22,7 @@ const GuestSignUp = () => {
 
   //  If theres a profile picture and username, let user press join button
   useEffect(() => {
-    if (profileP != profileImg && username != "") {
+    if (profileP !== profileImg && username !== "") {
       setIsDisabled(false);
     }
   }, [profileP, username]);
