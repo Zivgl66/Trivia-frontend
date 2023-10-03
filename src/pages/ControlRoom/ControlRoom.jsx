@@ -22,7 +22,8 @@ const ControlRoom = () => {
       .get(`/games/usergames/${user.id}`)
       .then((res) => {
         console.log(res);
-        if (res.data.message === "success") {
+        if (res.data.status == "success") {
+          console.log(res.data.games);
           setGameArray(res.data.games);
         }
       })
