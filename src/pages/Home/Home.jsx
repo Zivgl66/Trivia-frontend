@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../utils/functions";
 import "./Home.css"; // Import the CSS file
-import logo from "../../assets/logoNoBackground.png";
+import glass from "../../assets/glass-removebg-preview.png";
 const Home = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState();
@@ -69,25 +69,11 @@ const Home = () => {
           onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
           maxLength={4}
         ></input>
-      </div>
-      <button class="button-join"> Enter</button>
 
-      {/* <div class=" container-short">
-        <form>
-          <img id="logo-image" src={logo} alt="Image Description"></img>
-          <div class="form-floatin mb-3 container">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Game PIN"
-              value={roomCode}
-              onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-              maxLength={4}
-            ></input>
-            <button class="button-join"> Enter</button>
-          </div>
-        </form>
-      </div> */}
+        <button class="button-join"> Enter</button>
+      </div>
+      <img src={glass} alt="" class="glass-image" />
+
       <footer>
         <p id="line-create">
           To create a game{" "}
