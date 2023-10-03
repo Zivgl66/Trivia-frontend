@@ -20,6 +20,17 @@ const GuestSignUp = () => {
     setOpen(false);
   };
 
+  const selectImage = (e) => {
+    e.preventDefault();
+    let imageUrl = axios
+      .post("/images", { imageUrl: "https://i.ibb.co/nRPczYW/Ido-Profile.jpg" })
+      .then((res) => {
+        if (res.data.status === "success") {
+          console.log("ff");
+        }
+      });
+  };
+
   //  If theres a profile picture and username, let user press join button
   useEffect(() => {
     if (profileP != profileImg && username != "") {
@@ -55,61 +66,59 @@ const GuestSignUp = () => {
   };
 
   return (
-    <div className="container-guest">
-      <fieldset>
-        <legend>Wash Your Hands</legend>
-      </fieldset>
-      <img
-        src={profileP}
-        alt=""
-        className=""
-        // style={{ transitionDuration: "all 3s ease-out" }}
-      />
-      <form className="d-flex flex-column mt-3">
-        <div className="mb-3">
-          {/* <label htmlFor="name" className="form-label text-center">
+    <div className="all-container">
+      <h1 className="neon-text">Welcome</h1>
+      <div className="change-postion">
+        <img
+          src={profileP}
+          alt=""
+          className="image-profile"
+          onClick={handleOpen}
+        />
+        <form className="d-flex flex-column mt-3">
+          <div className="mb-3">
+            {/* <label htmlFor="name" className="form-label text-center">
             Choose your Name
           </label> */}
-          <input
-            type="text"
-            className="form-control fs-4 text-center"
-            id="name"
-            placeholder="Enter Your Name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            // aria-describedby="emailHelp"
-          />
-        </div>
-      </form>
-      <button
-        htmlFor="profilePicture"
-        className="btn btn-lg btn-danger mb-3"
-        onClick={handleOpen}
-      >
-        Choose your Picture
-      </button>
-      <button
-        type="submit"
-        className="btn btn-lg btn-primary"
-        disabled={isDisabled}
-        onClick={handleSubmit}
-      >
-        Join
-      </button>
-      <Modal open={open} onClose={handleClose}>
-        <div className="container mt-5 d-flex flex-column bg-primary">
-          <button className="btn" onClick={() => chooseImg(idoP)}>
-            <img
-              src="https://i.ibb.co/nRPczYW/Ido-Profile.jpg"
-              className="w-25 rounded-circle"
-              alt="Ido profile picture"
+            <input
+              type="text"
+              className="form-control fs-7 text-center"
+              id="name"
+              placeholder="Enter Your Name"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              // aria-describedby="emailHelp"
             />
-          </button>
-          <button className="btn btn-danger btn-md mb-3" onClick={handleClose}>
-            Close
-          </button>
-        </div>
-      </Modal>
+          </div>
+        </form>
+
+        <button
+          type="submit"
+          className="button-join"
+          id="join"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
+          Join
+        </button>
+        <Modal open={open} onClose={handleClose}>
+          <div className=" body">
+            <button className="btn" onClick={() => chooseImg(idoP)}>
+              <img
+                src="https://i.ibb.co/nRPczYW/Ido-Profile.jpg"
+                className="w-25 "
+                alt="Ido profile picture"
+              />
+            </button>
+            <button
+              className="btn btn-danger btn-md mb-3"
+              onClick={handleClose}
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 };

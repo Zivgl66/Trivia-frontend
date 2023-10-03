@@ -1,8 +1,37 @@
-.waiting-room {
-  max-width: 800px;
-  margin: 0 auto;
+fieldset {
+  border: 100px solid transparent;
+  padding: 0;
+  margin: 0;
+  border-top-color: blue;
+  box-sizing: border-box;
+  grid-area: 1 / 1;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: inherit;
+
+  text-align: center;
+  justify-content: center;
+  height: 100vh;
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.centered-text {
+  border: 10px solid #138455;
+  text-align: center;
+  padding: 20px;
+  width: 90%;
+  height: 90%;
+}
+
+.centered-text legend {
+  /* background-color: #289259; */
+  font: 15pt/0 "Averia Serif Libre";
+  margin: auto;
+  padding: 0 4px;
+}
+
+.centered-text p {
+  margin: 0;
 }
