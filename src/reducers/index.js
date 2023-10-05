@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
-import socket from "./socket";
+import socketReducer from "./socket";
 import authReducer from "./auth";
 import roomReducer from "./room";
 
 export default combineReducers({
-  socket,
+  socketReducer,
   authReducer,
   roomReducer,
 });

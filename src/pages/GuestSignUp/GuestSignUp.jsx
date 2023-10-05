@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Modal from "@mui/material/Modal";
 import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
 import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
 import "./GuestSignUp.css";
 const GuestSignUp = () => {
   const navigate = useNavigate();
+  const socket = useSelector((state) => state.socketReducer.socket);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [profileP, setProfileP] = useState(profileImg);
   const [username, setUsername] = useState("");
+  let { roomCode } = useParams();
+  const [guestId, setGuestId] = useState(localStorage.getItem("@guestId"));
 
   //  On press of an image inside the modal, change img src and clost modal
   const chooseImg = (url) => {
@@ -30,20 +34,31 @@ const GuestSignUp = () => {
   //  After submiting - send post request and add a new user, if ok - navigate to the game room
   const handleSubmit = (e) => {
     e.preventDefault();
+    // let newGuest = {
+    //   username,
+    //   profileImage: profileP,
+    //   isManager: false,
+    //   numberOfRights: 0,
+    //   numberOfRightsInARow: 0,
+    // };
+    console.log(guestId);
     let newGuest = {
-      username,
-      profileImage: profileP,
-      isManager: false,
-      numberOfRights: 0,
-      numberOfRightsInARow: 0,
+      _id: guestId,
+      guestName: username,
+      guestPicture: profileP,
     };
     axios
-      .post("/guests", newGuest)
+      .post("/rooms/addplayer", { newGuest, roomCode })
       .then((res) => {
         console.log(res.data.message);
-        if (res.data.status === "ok") {
+        if (res.data.status === "success") {
           console.log(res.data.message);
-          navigate("/waitingroom");
+          console.log("data ", res.data);
+          navigate(`/room/guest/${res.data.room._id}`);
+          socket.emit("add-player", {
+            user: newGuest,
+            socketId: socket.id,
+          });
         } else {
           console.log(res.data.message);
         }

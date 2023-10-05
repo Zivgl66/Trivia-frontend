@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import data from "../../dbmockup.json";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,6 +8,7 @@ import {
   FETCH_ROOM,
   ADD_PLAYER,
 } from "../../constants/actionTypes";
+import socketReducer from "../../reducers/socket";
 
 //components
 import GameCube from "../../components/GameCube/GameCube";
@@ -16,7 +16,7 @@ import Loader from "../../components/Loader/Loader";
 
 const ControlRoom = () => {
   const navigate = useNavigate();
-  const socket = useSelector((state) => state.socket.socket);
+  const socket = useSelector((state) => state.socketReducer.socket);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("@user")));
   const [loading, setLoading] = useState(true);
   const [gamesArray, setGameArray] = useState([]);
@@ -43,6 +43,7 @@ const ControlRoom = () => {
     console.log(gamesArray);
   };
   const startGame = (id) => {
+    console.log("socket: " + socket);
     console.log("game id: " + id);
     axios
       .post("/rooms", { hostId: user.id, gameId: id })
@@ -51,7 +52,8 @@ const ControlRoom = () => {
         if (res.data.status === "success") {
           console.log(res.data.room);
           dispatch({ type: CREATE_ROOM, payload: res.data.room });
-          navigate("/room");
+          navigate(`/room/host/${res.data.room._id}`);
+          socket.emit("init-game", { room: res.data.room });
         } else {
           console.log(res.data.message);
         }

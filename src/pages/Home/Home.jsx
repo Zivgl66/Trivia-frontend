@@ -10,7 +10,7 @@ import { addPlayer } from "../../actions/room";
 const Home = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState();
-  const socket = useSelector((state) => state.socket.socket);
+  const socket = useSelector((state) => state.socketReducer.socket);
 
   const JoinRoom = (e) => {
     e.preventDefault();
@@ -20,7 +20,8 @@ const Home = () => {
         if (res.data.status === "success") {
           console.log(res.data);
           notify("Joined Room, pick a username");
-          navigate("/guestsignup");
+          localStorage.setItem("@guestId", res.data.guestId);
+          navigate(`/guestsignup/${roomCode}`);
         } else {
           notify(res.data.message);
           console.log(res.data.message);
@@ -31,10 +32,10 @@ const Home = () => {
       });
   };
 
-  const joinGame = (e) => {
-    e.preventDefault();
-    socket.emit();
-  };
+  // const joinGame = (e) => {
+  //   e.preventDefault();
+  //   socket.emit();
+  // };
   // const enteringGuest = (e) => {
   //   if (roomCode.length == 4) {
   //     e.preventDefault();

@@ -28,6 +28,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import HostScreen from "./pages/Game/HostScreen/HostScreen";
+import GuestScreen from "./pages/Game/GuestScreen/GuestScreen";
 
 // //  Default url axios
 axios.defaults.baseURL = "http://localhost:3001/api/";
@@ -58,7 +60,7 @@ const router = createBrowserRouter([
         element: <OpenRoom />,
       },
       {
-        path: "/guestsignup",
+        path: "/guestsignup/:roomCode",
         element: <GuestSignUp />,
       },
       {
@@ -66,8 +68,12 @@ const router = createBrowserRouter([
         element: <CreateARoom />,
       },
       {
-        path: "/room",
-        element: <Room />,
+        path: "/room/host/:id",
+        element: <HostScreen />,
+      },
+      {
+        path: "/room/guest/:id",
+        element: <GuestScreen />,
       },
     ],
   },
@@ -76,9 +82,7 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-      <ToastContainer />
-    </React.StrictMode>
+    <RouterProvider router={router} />
+    <ToastContainer />
   </Provider>
 );
