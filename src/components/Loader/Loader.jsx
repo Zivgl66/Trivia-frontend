@@ -1,5 +1,5 @@
 import React from "react";
-import CircleFadeLoader from "react-loaders-kit/lib/bars/CircleFadeLoader";
+import CircleFadeLoader from "react-loaders-kit/lib/circleFade/CircleFadeLoader";
 
 const Loader = () => {
   let loading = true;

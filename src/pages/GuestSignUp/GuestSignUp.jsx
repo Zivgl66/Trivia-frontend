@@ -6,8 +6,11 @@ import Modal from "@mui/material/Modal";
 import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
 import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
 import "./GuestSignUp.css";
+import Loader from "../../components/Loader/Loader";
+
 const GuestSignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const socket = useSelector((state) => state.socketReducer.socket);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -70,60 +73,80 @@ const GuestSignUp = () => {
       });
   };
 
+  //know when the game starts
+  useEffect(() => {
+    socket?.on("move-to-game-page", (gameId) => {
+      // dispatch(
+      //   createPlayerResult({
+      //     playerId: user.result._id,
+      //     gameId: gameId,
+      //     score: 0,
+      //     answers: [],
+      //   })
+      // );
+      navigate(`/room/guest/${gameId}`);
+    });
+  }, [socket, dispatch, navigate]);
+
   return (
     <>
-    {
-      joined ? (
-        <Loader/>
-        ):
-        ( <div className="container-guest">
-      <fieldset>
-        <legend>Wash Your Hands</legend>
-      </fieldset>
-      <img src={profileP} alt="" className="" />
-      <form className="d-flex flex-column mt-3">
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control fs-4 text-center"
-            id="name"
-            placeholder="Enter Your Name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+      {joined ? (
+        <div className="container-loading">
+          <h1>Joined, Waiting for game to start</h1>
+          <Loader />
         </div>
-      </form>
-      <button
-        htmlFor="profilePicture"
-        className="btn btn-lg btn-danger mb-3"
-        onClick={handleOpen}
-        >
-        Choose your Picture
-      </button>
-      <button
-        type="submit"
-        className="btn btn-lg btn-primary"
-        disabled={isDisabled}
-        onClick={handleSubmit}
-        >
-        Join
-      </button>
-      <Modal open={open} onClose={handleClose}>
-        <div className="container mt-5 d-flex flex-column bg-primary">
-          <button className="btn" onClick={() => chooseImg(idoP)}>
-            <img
-              src="https://i.ibb.co/nRPczYW/Ido-Profile.jpg"
-              className="w-25 rounded-circle"
-              alt="Ido profile picture"
+      ) : (
+        <div className="container-guest">
+          <fieldset>
+            <legend>Wash Your Hands</legend>
+          </fieldset>
+          <img src={profileP} alt="" className="" />
+          <form className="d-flex flex-column mt-3">
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control fs-4 text-center"
+                id="name"
+                placeholder="Enter Your Name"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
+            </div>
+          </form>
+          <button
+            htmlFor="profilePicture"
+            className="btn btn-lg btn-danger mb-3"
+            onClick={handleOpen}
+          >
+            Choose your Picture
           </button>
-          <button className="btn btn-danger btn-md mb-3" onClick={handleClose}>
-            Close
+          <button
+            type="submit"
+            className="btn btn-lg btn-primary"
+            disabled={isDisabled}
+            onClick={handleSubmit}
+          >
+            Join
           </button>
+          <Modal open={open} onClose={handleClose}>
+            <div className="container mt-5 d-flex flex-column bg-primary">
+              <button className="btn" onClick={() => chooseImg(idoP)}>
+                <img
+                  src="https://i.ibb.co/nRPczYW/Ido-Profile.jpg"
+                  className="w-25 rounded-circle"
+                  alt="Ido profile picture"
+                />
+              </button>
+              <button
+                className="btn btn-danger btn-md mb-3"
+                onClick={handleClose}
+              >
+                Close
+              </button>
+            </div>
+          </Modal>
         </div>
-      </Modal>
-    </div>)
-    }
+      )}
     </>
   );
 };

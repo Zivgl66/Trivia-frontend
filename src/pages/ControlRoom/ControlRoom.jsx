@@ -7,6 +7,7 @@ import {
   CREATE_ROOM,
   FETCH_ROOM,
   ADD_PLAYER,
+  CHOOSE_GAME,
 } from "../../constants/actionTypes";
 import socketReducer from "../../reducers/socket";
 
@@ -42,16 +43,17 @@ const ControlRoom = () => {
   const handleClick = () => {
     console.log(gamesArray);
   };
-  const startGame = (id) => {
+  const startGame = (game) => {
     console.log("socket: " + socket);
-    console.log("game id: " + id);
+    console.log("game id: " + game._id);
     axios
-      .post("/rooms", { hostId: user.id, gameId: id })
+      .post("/rooms", { hostId: user.id, gameId: game._id })
       .then((res) => {
         console.log(res.data.message);
         if (res.data.status === "success") {
           console.log(res.data.room);
           dispatch({ type: CREATE_ROOM, payload: res.data.room });
+          dispatch({ type: CHOOSE_GAME, payload: game });
           navigate(`/room/host/${res.data.room._id}`);
           socket.emit("init-game", { room: res.data.room });
         } else {

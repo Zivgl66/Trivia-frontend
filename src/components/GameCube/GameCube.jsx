@@ -12,7 +12,7 @@ const GameCube = ({ game, startGame }) => {
         <button
           type="button"
           className="btn btn-outline-success"
-          onClick={() => startGame(game._id)}
+          onClick={() => startGame(game)}
         >
           Start
         </button>
