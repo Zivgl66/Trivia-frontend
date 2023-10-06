@@ -17,6 +17,7 @@ const GuestSignUp = () => {
   const [username, setUsername] = useState("");
   let { roomCode } = useParams();
   const [guestId, setGuestId] = useState(localStorage.getItem("@guestId"));
+  const [joined, setJoined] = useState(false);
 
   //  On press of an image inside the modal, change img src and clost modal
   const chooseImg = (url) => {
@@ -54,11 +55,12 @@ const GuestSignUp = () => {
         if (res.data.status === "success") {
           console.log(res.data.message);
           console.log("data ", res.data);
-          navigate(`/room/guest/${res.data.room._id}`);
+          // navigate(`/room/guest/${res.data.room._id}`);
           socket.emit("add-player", {
             user: newGuest,
             socketId: socket.id,
           });
+          setJoined(true);
         } else {
           console.log(res.data.message);
         }
@@ -69,21 +71,18 @@ const GuestSignUp = () => {
   };
 
   return (
-    <div className="container-guest">
+    <>
+    {
+      joined ? (
+        <Loader/>
+        ):
+        ( <div className="container-guest">
       <fieldset>
         <legend>Wash Your Hands</legend>
       </fieldset>
-      <img
-        src={profileP}
-        alt=""
-        className=""
-        // style={{ transitionDuration: "all 3s ease-out" }}
-      />
+      <img src={profileP} alt="" className="" />
       <form className="d-flex flex-column mt-3">
         <div className="mb-3">
-          {/* <label htmlFor="name" className="form-label text-center">
-            Choose your Name
-          </label> */}
           <input
             type="text"
             className="form-control fs-4 text-center"
@@ -91,7 +90,6 @@ const GuestSignUp = () => {
             placeholder="Enter Your Name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            // aria-describedby="emailHelp"
           />
         </div>
       </form>
@@ -99,7 +97,7 @@ const GuestSignUp = () => {
         htmlFor="profilePicture"
         className="btn btn-lg btn-danger mb-3"
         onClick={handleOpen}
-      >
+        >
         Choose your Picture
       </button>
       <button
@@ -107,7 +105,7 @@ const GuestSignUp = () => {
         className="btn btn-lg btn-primary"
         disabled={isDisabled}
         onClick={handleSubmit}
-      >
+        >
         Join
       </button>
       <Modal open={open} onClose={handleClose}>
@@ -117,14 +115,16 @@ const GuestSignUp = () => {
               src="https://i.ibb.co/nRPczYW/Ido-Profile.jpg"
               className="w-25 rounded-circle"
               alt="Ido profile picture"
-            />
+              />
           </button>
           <button className="btn btn-danger btn-md mb-3" onClick={handleClose}>
             Close
           </button>
         </div>
       </Modal>
-    </div>
+    </div>)
+    }
+    </>
   );
 };
 

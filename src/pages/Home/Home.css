@@ -143,6 +143,13 @@
   position: absolute;
   transform: translate(-100%, -50%);
 }
+#href-button {
+  background-color: transparent;
+  color: green;
+  font-weight: bold;
+  text-decoration: underline;
+  border: none;
+}
 
 @media (max-width: 1200px) {
   .glass-image {

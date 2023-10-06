@@ -32,37 +32,9 @@ const Home = () => {
       });
   };
 
-  // const joinGame = (e) => {
-  //   e.preventDefault();
-  //   socket.emit();
-  // };
-  // const enteringGuest = (e) => {
-  //   if (roomCode.length == 4) {
-  //     e.preventDefault();
-  //     axios
-  //       .get("/rooms/")
-  //       .then((res) => {
-  //         if (res.data.status === "success") {
-  //           console.log(res.data.message);
-  //           for (let x = 0; x < res.data.rooms.length; x++) {
-  //             if (res.data.rooms[x].roomCode === roomCode) {
-  //               notify(res.data.roomCode);
-  //               navigate("/guestsignup");
-  //             }
-  //           }
-  //         } else {
-  //           notify(res.data.message);
-  //           console.log(res.data.message);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.log("error axios: ", err);
-  //       });
-  //   } else {
-  //     alert("Invalid, please try again");
-  //     setRoomCode("");
-  //   }
-  // };
+  const login = (e) => {
+    navigate("/login");
+  };
 
   const createGame = (e) => {
     e.preventDefault();
@@ -91,10 +63,14 @@ const Home = () => {
 
       <footer>
         <p id="line-create">
-          To create a game
-          <a href="/home" id="create-game" onClick={createGame}>
-            click here
-          </a>
+          To create a game{" "}
+          <button id="href-button" onClick={() => navigate("/signup")}>
+            signup{" "}
+          </button>{" "}
+          or{" "}
+          <button id="href-button" onClick={() => navigate("/login")}>
+            login
+          </button>
         </p>
       </footer>
     </div>

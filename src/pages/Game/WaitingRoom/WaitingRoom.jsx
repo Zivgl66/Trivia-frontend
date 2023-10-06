@@ -9,6 +9,7 @@ function WaitingRoom({ socket }) {
 
   useEffect(() => {
     socket.on("player-added", (player) => {
+      console.log("new player: " + player.guestPicture);
       setPlayerList([...playerList, player]);
     });
   }, [playerList, socket]);
@@ -25,16 +26,21 @@ function WaitingRoom({ socket }) {
           <h1>Player List:</h1>
           {playerList.length > 0 ? (
             <ol>
-              {playerList.map((player) => (
-                <li>
+              {playerList.map((player, index) => (
+                <li key={index + player.guestName}>
                   <h3>
                     <mark>{player.guestName}</mark>
+                    <img
+                      src={player.guestPicture}
+                      width={"30px"}
+                      style={{ borderRadius: "25px", marginLeft: "5px" }}
+                    />
                   </h3>
                 </li>
               ))}
             </ol>
           ) : (
-            <h1>Waiting for player to join...</h1>
+            <h1>Waiting for players to join...</h1>
           )}
         </div>
       </div>

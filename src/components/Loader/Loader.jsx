@@ -1,13 +1,16 @@
 import React from "react";
+import CircleFadeLoader from "react-loaders-kit/lib/bars/CircleFadeLoader";
 
 const Loader = () => {
-  return (
-    <div className="container-fluid m-5 d-flex justify-content-center align-items-center">
-      <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  );
+  let loading = true;
+  const loaderProps = {
+    loading,
+    size: 35,
+    duration: 1,
+    colors: ["#5e22f0", "#f6b93b"],
+  };
+
+  return <CircleFadeLoader {...loaderProps} />;
 };
 
 export default Loader;
