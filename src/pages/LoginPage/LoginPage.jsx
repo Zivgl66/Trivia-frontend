@@ -27,7 +27,7 @@ const LoginPage = () => {
     axios
       .post("/users/login", user)
       .then((res) => {
-        console.log(res.data.token);
+        // console.log(res.data.token);
         if (res.data.message == "success") {
           console.log("in in in ");
           dispatch({ type: LOGIN, payload: res.data.token });

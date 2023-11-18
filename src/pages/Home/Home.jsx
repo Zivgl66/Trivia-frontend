@@ -32,14 +32,14 @@ const Home = () => {
       });
   };
 
-  const login = (e) => {
-    navigate("/login");
-  };
+  // const login = (e) => {
+  //   navigate("/login");
+  // };
 
-  const createGame = (e) => {
-    e.preventDefault();
-    console.log("create game! comming soon");
-  };
+  // const createGame = (e) => {
+  //   e.preventDefault();
+  //   console.log("create game! comming soon");
+  // };
 
   return (
     <div className="all-container">

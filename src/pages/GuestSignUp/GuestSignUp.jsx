@@ -7,6 +7,7 @@ import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
 import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
 import "./GuestSignUp.css";
 import Loader from "../../components/Loader/Loader";
+import { createPlayerResult } from "../../actions/playerResult";
 
 const GuestSignUp = () => {
   const navigate = useNavigate();
@@ -75,15 +76,18 @@ const GuestSignUp = () => {
 
   //know when the game starts
   useEffect(() => {
-    socket?.on("move-to-game-page", (gameId) => {
-      // dispatch(
-      //   createPlayerResult({
-      //     playerId: user.result._id,
-      //     gameId: gameId,
-      //     score: 0,
-      //     answers: [],
-      //   })
-      // );
+    socket?.on("move-to-game-page",  (gameId) => {
+       dispatch(
+        createPlayerResult({
+          playerId: guestId,
+          roomId: gameId,
+          score: 0,
+          answers: [],
+        })
+      );
+      // setTimeout(() => {
+      //   navigate(`/room/guest/${gameId}`);
+      // }, 2000);
       navigate(`/room/guest/${gameId}`);
     });
   }, [socket, dispatch, navigate]);

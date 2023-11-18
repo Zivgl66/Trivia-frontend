@@ -47,11 +47,13 @@ export const fetchRoom = (id) => API.get(`/games/${id}`, id);
 export const addPlayer = (gameId, playerId) =>
   API.patch(`/games/${gameId}/players`, { playerId });
 
-export const createPlayerResult = (newPlayerResult) =>
-  API.post("/playerResults", newPlayerResult);
+export const createPlayerResult = (newPlayerResult) => {
+  console.log(newPlayerResult);
+  return API.post("/playerresults", { newPlayerResult });
+};
 export const fetchPlayerResult = (id) => API.get(`/playerResults/${id}`, id);
 export const addAnswer = (newAnswer, id) =>
-  API.patch(`/playerResults/${id}/answers`, { newAnswer });
+  API.post(`/playerresults/${id}/answers`, { newAnswer });
 
 export const createLeaderboard = (newLeaderboard) =>
   API.post("/leaderboard", newLeaderboard);
@@ -67,5 +69,3 @@ export const updateCurrentLeaderboard = (result, id) =>
 
 // export const login = (formData) => AUTH_API.post("/login", formData);
 // export const register = (formData) => AUTH_API.post("/register", formData);
-
-
