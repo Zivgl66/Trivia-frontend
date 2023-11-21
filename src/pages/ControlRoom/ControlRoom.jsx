@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,7 +9,8 @@ import {
   ADD_PLAYER,
   CHOOSE_GAME,
 } from "../../constants/actionTypes";
-import socketReducer from "../../reducers/socket";
+import { createLeaderboard } from "../../actions/leaderboard";
+// import socketReducer from "../../reducers/socket";
 
 //components
 import GameCube from "../../components/GameCube/GameCube";
@@ -27,37 +28,59 @@ const ControlRoom = () => {
     axios
       .get(`/games/usergames/${user.id}`)
       .then((res) => {
-        console.log(res);
         if (res.data.status == "success") {
-          console.log(res.data.games);
+          // console.log("response from game api: ", res.data.games);
           setGameArray(res.data.games);
         }
       })
       .catch((err) => {
         console.error("error from axios " + err);
       });
-    console.log("games: " + gamesArray);
+    // console.log("games: " + gamesArray);
     setLoading(false);
   }, []);
 
   const handleClick = () => {
-    console.log(gamesArray);
+    // console.log(gamesArray);
   };
-  const startGame = (game) => {
-    console.log("socket: " + socket);
-    console.log("game id: " + game._id);
+
+  const moveToHostScreen = async (roomData) => {
+    //  let leaderboardData = { roomId: res.data.room._id, playerResultList: [] }
+    const newLeaderboard = await dispatch(
+      createLeaderboard({
+        roomId: roomData._id,
+        playerResultList: [],
+      })
+    );
+    // console.log("leaderboard is : ", newLeaderboard);
+    socket.emit("init-game", roomData, newLeaderboard);
+    navigate(`/room/host/${roomData._id}`);
+  };
+
+  const startGame = async (game) => {
+    // console.log("socket: " + socket);
+    // console.log("game id: " + game._id);
     axios
       .post("/rooms", { hostId: user.id, gameId: game._id })
       .then((res) => {
-        console.log(res.data.message);
+        // console.log(res.data.message);
         if (res.data.status === "success") {
-          console.log(res.data.room);
+          // console.log(res.data.room);
           dispatch({ type: CREATE_ROOM, payload: res.data.room });
           dispatch({ type: CHOOSE_GAME, payload: game });
-          navigate(`/room/host/${res.data.room._id}`);
-          socket.emit("init-game", { room: res.data.room });
+          moveToHostScreen(res.data.room);
+          // navigate(`/room/host/${res.data.room._id}`);
+          // //  let leaderboardData = { roomId: res.data.room._id, playerResultList: [] }
+          // const newLeaderboard = dispatch(
+          //   createLeaderboard({
+          //     roomId: res.data.room._id,
+          //     playerResultList: [],
+          //   })
+          // );
+          // console.log("leaderboard is : ", newLeaderboard);
+          // socket.emit("init-game", res.data.room, newLeaderboard);
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       })
       .catch((err) => {

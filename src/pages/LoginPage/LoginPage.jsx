@@ -29,7 +29,7 @@ const LoginPage = () => {
       .then((res) => {
         // console.log(res.data.token);
         if (res.data.message == "success") {
-          console.log("in in in ");
+          // console.log("connected! ");
           dispatch({ type: LOGIN, payload: res.data.token });
           navigate("/controlroom");
         }

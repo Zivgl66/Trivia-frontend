@@ -14,7 +14,7 @@ API.interceptors.request.use((req) => {
 export const fetchUsers = () => API.get("/users");
 export const createUser = (newUser) => API.post("/users", newUser);
 export const updateUser = (id, updatedUser) =>
-  API.patch(`/users/${id}`, updatedUser);
+  API.post(`/users/${id}`, updatedUser);
 export const deleteUser = (id) => API.delete(`/users/${id}`);
 
 export const fetchQuizes = () => API.get("/quizes");
@@ -33,11 +33,11 @@ export const createQuiz = (newQuiz) => API.post("/quizes", newQuiz);
 export const createQuestion = (quizId, newQuestion) =>
   API.post(`/quizes/${quizId}/questions`, newQuestion);
 export const updateQuestion = (quizId, questionId, updatedQuestion) =>
-  API.patch(`/quizes/${quizId}/questions/${questionId}`, updatedQuestion);
+  API.post(`/quizes/${quizId}/questions/${questionId}`, updatedQuestion);
 export const updateQuiz = (id, updatedQuiz) =>
-  API.patch(`/quizes/${id}`, updatedQuiz);
+  API.post(`/quizes/${id}`, updatedQuiz);
 export const deleteQuiz = (id) => API.delete(`/quizes/${id}`);
-export const likeQuiz = (id) => API.patch(`/quizes/${id}/likeQuiz`);
+export const likeQuiz = (id) => API.post(`/quizes/${id}/likeQuiz`);
 export const commentQuiz = (comment, id) =>
   API.post(`/quizes/${id}/commentQuiz`, { comment });
 export const fetchQuiz = (id) => API.get(`/quizes/${id}`, id);
@@ -45,7 +45,7 @@ export const fetchQuiz = (id) => API.get(`/quizes/${id}`, id);
 export const createRoom = (newGame) => API.post("/games", newGame);
 export const fetchRoom = (id) => API.get(`/games/${id}`, id);
 export const addPlayer = (gameId, playerId) =>
-  API.patch(`/games/${gameId}/players`, { playerId });
+  API.post(`/games/${gameId}/players`, { playerId });
 
 export const createPlayerResult = (newPlayerResult) => {
   console.log(newPlayerResult);
@@ -56,14 +56,14 @@ export const addAnswer = (newAnswer, id) =>
   API.post(`/playerresults/${id}/answers`, { newAnswer });
 
 export const createLeaderboard = (newLeaderboard) =>
-  API.post("/leaderboard", newLeaderboard);
-export const fetchLeaderboard = (id) => API.get(`/leaderboard/${id}`, id);
+  API.post("/leaderboards", { newLeaderboard });
+export const fetchLeaderboard = (id) => API.get(`/leaderboards/${id}`, id);
 export const addPlayerResult = (playerResult, id) =>
-  API.patch(`/leaderboard/${id}/playerresult`, playerResult);
+  API.post(`/leaderboards/${id}/playerresult`, playerResult);
 export const updateQuestionLeaderboard = (questionResult, id) =>
-  API.patch(`/leaderboard/${id}/questionleaderboard`, questionResult);
+  API.post(`/leaderboards/${id}/questionleaderboard`, { questionResult });
 export const updateCurrentLeaderboard = (result, id) =>
-  API.patch(`/leaderboard/${id}/currentleaderboard`, result);
+  API.post(`/leaderboards/${id}/currentleaderboard`, { result });
 
 // const AUTH_API = axios.create({ baseURL: "http://localhost:4000/api/auth" });
 

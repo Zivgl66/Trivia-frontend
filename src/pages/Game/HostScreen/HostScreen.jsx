@@ -4,9 +4,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Question from "../../../components/Question/Question";
 import WaitingRoom from "../WaitingRoom/WaitingRoom";
+import {
+  getLeaderboard,
+  updateQuestionLeaderboard,
+  updateCurrentLeaderboard,
+} from "../../../actions/leaderboard";
 
 const HostScreen = () => {
   let { id } = useParams();
+  const dispatch = useDispatch();
   const socket = useSelector((state) => state.socketReducer.socket);
   // const game = useSelector((state) => state.gameReducer.game);
   const [game, setGame] = useState(null);
@@ -15,6 +21,7 @@ const HostScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questionScreen, setQuestionScreen] = useState(false);
   const [questionResultScreen, setQuestionResultScreen] = useState(false);
+  const [leaderboardScreen, setLeaderboardScreen] = useState(false);
   const [questionData, setQuestionData] = useState({
     questionType: "Quiz",
     backgroundImage: "",
@@ -29,6 +36,15 @@ const HostScreen = () => {
   });
   const [playerList, setPlayerList] = useState([]);
   const [previewScreen, setPreviewScreen] = useState(false);
+  const leaderboard = useSelector(
+    (state) => state.leaderboardReducer.leaderboard
+  );
+  const [questionResult, setQuestionResult] = useState(
+    leaderboard?.questionLeaderboard[0]
+  );
+  const [currentLeaderboard, setCurrentLeaderboard] = useState(
+    leaderboard?.currentLeaderboard[0]
+  );
 
   const startGame = () => {
     socket.emit("start-game", { game });
@@ -40,7 +56,7 @@ const HostScreen = () => {
   };
 
   const startPreviewCountdown = (seconds, index) => {
-    // setIsLeaderboardScreen(false);
+    setLeaderboardScreen(false);
     setPreviewScreen(true);
     let time = seconds;
     let interval = setInterval(() => {
@@ -65,16 +81,29 @@ const HostScreen = () => {
       time--;
     }, 1000);
   };
+
+  const displayCurrentLeaderBoard = (index) => {
+    setQuestionResultScreen(false);
+    setLeaderboardScreen(true);
+    // setTimeout(() => {
+    //   socket.emit("question-preview", () => {
+    //     startPreviewCountdown(5, index);
+    //     setPlayerList([]);
+    //   });
+    // }, 5000);
+  };
+
   const displayQuestionResult = (index) => {
     setQuestionScreen(false);
     setQuestionResultScreen(true);
     setTimeout(() => {
-      // displayCurrentLeaderBoard(index);
+      displayCurrentLeaderBoard(index);
     }, 5000);
   };
+
   const displayQuestion = (index) => {
     if (index === game.questionList.length) {
-      // displayCurrentLeaderBoard(index);
+      displayCurrentLeaderBoard(index);
       return;
     } else {
       setQuestionData(game.questionList[index]);
@@ -116,15 +145,34 @@ const HostScreen = () => {
 
   useEffect(() => {
     socket.on("get-answer-from-player", (data, id, score, player) => {
-      // updateLeaderboard(data, id, score);
+      // console.log("player sent answer: ", player);
+      updateLeaderboard(data, id, score);
       let playerData = {
-        id: data.guestId,
+        id: player.guestId,
         userName: player.guestName,
         picture: player.guestPicture,
       };
       setPlayerList((prevstate) => [...prevstate, playerData]);
     });
   }, [socket]);
+
+  const updateLeaderboard = async (data, id, score) => {
+    let question = await dispatch(updateQuestionLeaderboard(data, id));
+    // console.log("question is? ", question);
+    setQuestionResult(question.questionLeaderboard[data.questionIndex - 1]);
+    let leaderboardData = {
+      questionIndex: data.questionIndex,
+      playerId: data.playerId,
+      playerCurrentScore: score,
+    };
+    let leaderboard = await dispatch(
+      updateCurrentLeaderboard(leaderboardData, id)
+    );
+    setCurrentLeaderboard(
+      leaderboard.currentLeaderboard[data.questionIndex - 1]
+    );
+  };
+
   return (
     <div>
       <h2>Host screen</h2>
@@ -145,13 +193,13 @@ const HostScreen = () => {
           />
         </div>
       )}
-      {/* {questionResultScreen && (
+      {questionResultScreen && (
         <div>
           <div>
             <h1>Question result</h1>
             <ol>
-              {questionResult.questionResultList.map((player) => (
-                <li>
+              {questionResult.questionResultList.map((player, index) => (
+                <li key={index + "questionresultkey"}>
                   {playerList
                     .filter((x) => x.id === player.playerId)
                     .map((x) => (
@@ -163,7 +211,30 @@ const HostScreen = () => {
             </ol>
           </div>
         </div>
-      )} */}
+      )}
+      {leaderboardScreen && (
+        <div>
+          <div>
+            <h1>Leaderboard </h1>
+            <ol>
+              {currentLeaderboard.leaderboardList
+                .sort((p1, p2) =>
+                  p1.playerCurrentScore < p2.playerCurrentScore ? 1 : -1
+                )
+                .map((player, index) => (
+                  <li key={index + "leaderboardkey"}>
+                    {playerList
+                      .filter((x) => x.id === player.playerId)
+                      .map((x) => (
+                        <mark>{x.userName}</mark>
+                      ))}
+                    <small>{player.playerCurrentScore}</small>
+                  </li>
+                ))}
+            </ol>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

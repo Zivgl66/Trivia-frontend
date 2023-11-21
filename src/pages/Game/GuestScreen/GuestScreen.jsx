@@ -51,7 +51,7 @@ function GuestScreen() {
       startPreviewCountdown(5);
     });
     socket.on("host-start-question-timer", (time, question) => {
-      console.log("player result at start: ", playerResult);
+      // console.log("player result at start: ", playerResult);
       setQuestionData(question.answerList);
       startQuestionCountdown(time);
       setAnswer((prevstate) => ({
@@ -69,7 +69,7 @@ function GuestScreen() {
     let interval = setInterval(() => {
       setTimer(time);
       if (time === 0) {
-        console.log("player result at end of time: ", playerResult);
+        // console.log("player result at end of time: ", playerResult);
 
         clearInterval(interval);
         setIsPreviewScreen(false);
@@ -87,7 +87,13 @@ function GuestScreen() {
     let interval = setInterval(() => {
       setTimer(time);
       setAnswerTime(answerSeconds);
-      if (time === 0) {
+      if (time === 0 && answer.answers.length == 0) {
+        checkAnswer("a");
+        clearInterval(interval);
+        setIsQuestionScreen(false);
+        setIsQuestionAnswered(false);
+        setIsResultScreen(true);
+      } else if (time === 0) {
         clearInterval(interval);
         setIsQuestionScreen(false);
         setIsQuestionAnswered(false);
@@ -99,13 +105,13 @@ function GuestScreen() {
   };
 
   const sendAnswer = async () => {
-    console.log("player result _id when sending answer: " + playerResult._id);
-    console.log("when sending answer , answer time is: " + answer.time);
+    // console.log("player result _id when sending answer: " + playerResult._id);
+    // console.log("when sending answer , answer time is: " + answer.time);
     // console.log("when sending answer obj is: " + answer);
     const updatedPlayerResult = await dispatch(
-       addAnswer(answer, playerResult._id)
+      addAnswer(answer, playerResult._id)
     );
-    console.log("update result: " + updatedPlayerResult.answers[0]);
+    // console.log("update result: " + updatedPlayerResult.answers[0]);
     setResult(
       updatedPlayerResult.answers[updatedPlayerResult.answers.length - 1]
     );
@@ -122,8 +128,8 @@ function GuestScreen() {
 
   const checkAnswer = (name) => {
     let answerIndex = answer.answers.findIndex((obj) => obj === name);
-    console.log("answer already exists? ", answerIndex);
-    console.log("player result: ", playerResult);
+    // console.log("answer already exists? ", answerIndex);
+    // console.log("player result: ", playerResult);
     if (answer.answers.includes(name)) {
       //remove answer
       setAnswer((prevstate) => ({
@@ -151,7 +157,7 @@ function GuestScreen() {
       answer?.answers.length > 0 &&
       answer?.answers.length === correctAnswerCount
     ) {
-      console.log("enterd if, answer is: " + answer.answers);
+      // console.log("enterd if, answer is: " + answer.answers);
       setIsQuestionScreen(false);
       setIsQuestionAnswered(true);
       sendAnswer();
@@ -215,8 +221,8 @@ function GuestScreen() {
       {isResultScreen && (
         <div style={{ backgroundColor: result?.points > 0 ? "green" : "red" }}>
           <h1>Result</h1>
-          <h3>{result.points > 0 ? "Correct" : "Wrong"}</h3>
-          <h3>Points: {result.points}</h3>
+          <h3>{result?.points > 0 ? "Correct" : "Wrong"}</h3>
+          <h3>Points: {result?.points}</h3>
         </div>
       )}
     </div>

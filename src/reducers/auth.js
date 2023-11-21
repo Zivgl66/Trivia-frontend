@@ -6,7 +6,7 @@ const authReducer = (state = { userData: null }, action) => {
     case LOGIN:
       localStorage.setItem("@token", JSON.stringify({ ...action?.payload }));
       let user = jwt_decode(action?.payload);
-      console.log(user);
+      // console.log("connected user: ",user);
       localStorage.setItem("@user", JSON.stringify(user));
       return { ...state, userData: user };
     case LOGOUT:

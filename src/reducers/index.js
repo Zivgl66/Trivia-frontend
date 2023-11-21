@@ -5,6 +5,7 @@ import authReducer from "./auth";
 import roomReducer from "./room";
 import gameReducer from "./game";
 import playerResultsReducer from "./playerResults";
+import leaderboardReducer from "./leaderboard";
 
 export default combineReducers({
   socketReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   roomReducer,
   gameReducer,
   playerResultsReducer,
+  leaderboardReducer,
 });
