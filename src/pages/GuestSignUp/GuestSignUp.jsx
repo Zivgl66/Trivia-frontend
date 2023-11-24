@@ -4,7 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "@mui/material/Modal";
 import profileImg from "../../assets/Profile Pictures/NoProfileImg.png";
-import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
+// import idoP from "../../assets/Profile Pictures/IdoProfile.jpg";
+// import almogP from "../../assets/Profile Pictures/almogProfile.jpg";
+// import zivP from "../../assets/Profile Pictures/zivProfile.jpg";
+import { profilePictures } from "../../constants/profilePicturesArray";
 import "./GuestSignUp.css";
 import Loader from "../../components/Loader/Loader";
 import { createPlayerResult } from "../../actions/playerResult";
@@ -76,8 +79,8 @@ const GuestSignUp = () => {
 
   //know when the game starts
   useEffect(() => {
-    socket?.on("move-to-game-page",  (gameId) => {
-       dispatch(
+    socket?.on("move-to-game-page", (gameId) => {
+      dispatch(
         createPlayerResult({
           playerId: guestId,
           roomId: gameId,
@@ -134,13 +137,17 @@ const GuestSignUp = () => {
           </button>
           <Modal open={open} onClose={handleClose}>
             <div className="container mt-5 d-flex flex-column bg-primary">
-              <button className="btn" onClick={() => chooseImg(idoP)}>
-                <img
-                  src="https://i.ibb.co/nRPczYW/Ido-Profile.jpg"
-                  className="w-25 rounded-circle"
-                  alt="Ido profile picture"
-                />
-              </button>
+              {profilePictures.map((p) => {
+                return (
+                  <button className="btn" onClick={() => chooseImg(p.src)}>
+                    <img
+                      src={p.url}
+                      className="w-25 rounded-circle"
+                      alt={p.friend}
+                    />
+                  </button>
+                );
+              })}
               <button
                 className="btn btn-danger btn-md mb-3"
                 onClick={handleClose}

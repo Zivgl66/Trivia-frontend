@@ -85,12 +85,12 @@ const HostScreen = () => {
   const displayCurrentLeaderBoard = (index) => {
     setQuestionResultScreen(false);
     setLeaderboardScreen(true);
-    // setTimeout(() => {
-    //   socket.emit("question-preview", () => {
-    //     startPreviewCountdown(5, index);
-    //     setPlayerList([]);
-    //   });
-    // }, 5000);
+    setTimeout(() => {
+      socket.emit("question-preview", () => {
+        startPreviewCountdown(5, index);
+        setPlayerList([]);
+      });
+    }, 5000);
   };
 
   const displayQuestionResult = (index) => {

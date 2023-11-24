@@ -7,26 +7,6 @@ import {
   ADD_ANSWER,
 } from "../constants/actionTypes";
 
-// export const createPlayerResult = (playerResult) => async (dispatch) => {
-//   try {
-//     console.log("player id: " + playerResult.playerId);
-//     await axios
-//       .post("/playerresults/", { playerResult })
-//       .then((res) => {
-//         console.log("result: " + res.data.playerResult._id);
-//         dispatch({
-//           type: CREATE_PLAYER_RESULT,
-//           payload: res.data.playerResult,
-//         });
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 export const createPlayerResult = (playerResult) => async (dispatch) => {
   try {
     console.log("player result sent: " + JSON.stringify(playerResult));
@@ -54,23 +34,6 @@ export const getPlayerResult = (id) => async (dispatch) => {
     console.log(error);
   }
 };
-
-// export const addAnswer = (newAnswer, id) => async (dispatch) => {
-//   try {
-//     await axios
-//       .post(`/playerresults/${id}/answers`, { newAnswer })
-//       .then((res) => {
-//         console.log("response after answer: " + res.data.playerResult._id);
-//         dispatch({ type: ADD_ANSWER, payload: res.data.playerResult });
-//         return res.data.playerResult;
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 export const addAnswer = (newAnswer, id) => async (dispatch) => {
   try {

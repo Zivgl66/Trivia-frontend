@@ -9,7 +9,7 @@ function WaitingRoom({ socket, startGame }) {
 
   useEffect(() => {
     socket.on("player-added", (player) => {
-      console.log("new player: " + player.guestPicture);
+      // console.log("new player: " + player.guestPicture);
       setPlayerList([...playerList, player]);
     });
   }, [playerList, socket]);

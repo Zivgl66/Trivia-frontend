@@ -13,7 +13,9 @@ function Question({ question, timer, host, isAnswerClicked, onClick }) {
         <>
           <h2>{question.question}</h2>
           <div>
-            <div>{timer}</div>
+            <div>
+              <h3>{timer}</h3>
+            </div>
             {question.backgroundImage && (
               <img src={question.backgroundImage} alt="" />
             )}
