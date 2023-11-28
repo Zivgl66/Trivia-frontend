@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LOGIN } from "../../constants/actionTypes";
 
@@ -54,6 +53,7 @@ const LoginPage = () => {
             className="form-control fs-4 text-center"
             id="username"
             placeholder="Enter Your Username"
+            autoComplete="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -62,6 +62,7 @@ const LoginPage = () => {
             className="form-control fs-4 text-center mt-3"
             id="password"
             placeholder="Enter Your Password"
+            autoComplete="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

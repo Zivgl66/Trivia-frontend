@@ -10,7 +10,6 @@ const playerResultsReducer = (
 ) => {
   switch (action.type) {
     case CREATE_PLAYER_RESULT:
-      console.log("player result in case state: " + action.payload);
       return {
         ...state,
         playerResults: [...state.playerResults, action.payload],

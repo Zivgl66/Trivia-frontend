@@ -16,6 +16,7 @@ const HostScreen = () => {
   const socket = useSelector((state) => state.socketReducer.socket);
   // const game = useSelector((state) => state.gameReducer.game);
   const [game, setGame] = useState(null);
+  const [isGameOver, setIsGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [timer, setTimer] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -84,13 +85,20 @@ const HostScreen = () => {
 
   const displayCurrentLeaderBoard = (index) => {
     setQuestionResultScreen(false);
+    setQuestionScreen(false);
     setLeaderboardScreen(true);
-    setTimeout(() => {
-      socket.emit("question-preview", () => {
-        startPreviewCountdown(5, index);
-        setPlayerList([]);
-      });
-    }, 5000);
+    if (index == game.questionList.length) {
+      console.log("Gmae over! gg");
+      setIsGameOver(true);
+      socket.emit("game-over", currentLeaderboard);
+    } else {
+      setTimeout(() => {
+        socket.emit("question-preview", () => {
+          startPreviewCountdown(5, index);
+          setPlayerList([]);
+        });
+      }, 5000);
+    }
   };
 
   const displayQuestionResult = (index) => {
@@ -102,25 +110,40 @@ const HostScreen = () => {
   };
 
   const displayQuestion = (index) => {
-    if (index === game.questionList.length) {
-      displayCurrentLeaderBoard(index);
-      return;
-    } else {
-      setQuestionData(game.questionList[index]);
-      setCurrentQuestionIndex((prevstate) => prevstate + 1);
-      let time = game.questionList[index].answerTime;
-      let question = {
-        answerList: game.questionList[index].answerList,
-        questionIndex: game.questionList[index].questionIndex,
-        correctAnswersCount: game.questionList[index].answerList.filter(
-          (answer) => answer.isCorrect === true
-        ).length,
-      };
-      socket.emit("start-question-timer", 10, question, () => {
-        startQuestionCountdown(time, index + 1);
-      });
-    }
+    console.log("questions number: " + index);
+    setQuestionData(game.questionList[index]);
+    setCurrentQuestionIndex((prevstate) => prevstate + 1);
+    let time = game.questionList[index].answerTime;
+    let question = {
+      answerList: game.questionList[index].answerList,
+      questionIndex: game.questionList[index].questionIndex,
+      correctAnswersCount: game.questionList[index].answerList.filter(
+        (answer) => answer.isCorrect === true
+      ).length,
+    };
+    socket.emit("start-question-timer", 10, question, () => {
+      startQuestionCountdown(time, index + 1);
+    });
+    // }
   };
+
+  const updateLeaderboard = async (data, id, score) => {
+    let question = await dispatch(updateQuestionLeaderboard(data, id));
+    // console.log("question is? ", question);
+    setQuestionResult(question.questionLeaderboard[data.questionIndex - 1]);
+    let leaderboardData = {
+      questionIndex: data.questionIndex,
+      playerId: data.playerId,
+      playerCurrentScore: score,
+    };
+    let leaderboard = await dispatch(
+      updateCurrentLeaderboard(leaderboardData, id)
+    );
+    setCurrentLeaderboard(
+      leaderboard.currentLeaderboard[data.questionIndex - 1]
+    );
+  };
+
   useEffect(() => {
     axios
       .get(`/rooms/${id}`)
@@ -155,23 +178,6 @@ const HostScreen = () => {
       setPlayerList((prevstate) => [...prevstate, playerData]);
     });
   }, [socket]);
-
-  const updateLeaderboard = async (data, id, score) => {
-    let question = await dispatch(updateQuestionLeaderboard(data, id));
-    // console.log("question is? ", question);
-    setQuestionResult(question.questionLeaderboard[data.questionIndex - 1]);
-    let leaderboardData = {
-      questionIndex: data.questionIndex,
-      playerId: data.playerId,
-      playerCurrentScore: score,
-    };
-    let leaderboard = await dispatch(
-      updateCurrentLeaderboard(leaderboardData, id)
-    );
-    setCurrentLeaderboard(
-      leaderboard.currentLeaderboard[data.questionIndex - 1]
-    );
-  };
 
   return (
     <div>
@@ -215,6 +221,7 @@ const HostScreen = () => {
       {leaderboardScreen && (
         <div>
           <div>
+            {isGameOver && <h1>The Game is OVER!</h1>}
             <h1>Leaderboard </h1>
             <ol>
               {currentLeaderboard.leaderboardList

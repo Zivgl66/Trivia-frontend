@@ -47,11 +47,10 @@ export const fetchRoom = (id) => API.get(`/games/${id}`, id);
 export const addPlayer = (gameId, playerId) =>
   API.post(`/games/${gameId}/players`, { playerId });
 
-export const createPlayerResult = (newPlayerResult) => {
-  console.log(newPlayerResult);
-  return API.post("/playerresults", { newPlayerResult });
-};
-export const fetchPlayerResult = (id) => API.get(`/playerResults/${id}`, id);
+export const createPlayerResult = (newPlayerResult) =>
+  API.post("/playerresults", { newPlayerResult });
+
+export const fetchPlayerResult = (id) => API.get(`/playerresults/${id}`);
 export const addAnswer = (newAnswer, id) =>
   API.post(`/playerresults/${id}/answers`, { newAnswer });
 

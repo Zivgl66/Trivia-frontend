@@ -21,7 +21,6 @@ function GuestScreen() {
   //   dispatch(getPlayerResult(localStorage.getItem("@guestId")))
   // );
   const [result, setResult] = useState(null);
-
   const [isQuestionAnswered, setIsQuestionAnswered] = useState(false);
   const [isPreviewScreen, setIsPreviewScreen] = useState(false);
   const [isQuestionScreen, setIsQuestionScreen] = useState(false);
@@ -30,6 +29,8 @@ function GuestScreen() {
   const [answerTime, setAnswerTime] = useState(0);
   const [questionData, setQuestionData] = useState();
   const [correctAnswerCount, setCorrectAnswerCount] = useState(1);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [currentLeaderboard, setCurrentLeaderboard] = useState(null);
 
   const [answer, setAnswer] = useState({
     questionIndex: 0,
@@ -37,57 +38,13 @@ function GuestScreen() {
     time: 0,
   });
 
-  useEffect(() => {
-    setTimer(5);
-    setTimeout(() => {
-      // setResult(playerResult?.answers[0]);
-    }, 1500);
-  }, []);
-
-  useEffect(() => {
-    socket.on("host-start-preview", () => {
-      setIsPreviewScreen(true);
-      setIsResultScreen(false);
-      startPreviewCountdown(5);
-    });
-    socket.on("host-start-question-timer", (time, question) => {
-      // console.log("player result at start: ", playerResult);
-      setQuestionData(question.answerList);
-      startQuestionCountdown(time);
-      setAnswer((prevstate) => ({
-        ...prevstate,
-        questionIndex: question.questionIndex,
-        answers: [],
-        time: 0,
-      }));
-      setCorrectAnswerCount(question.correctAnswersCount);
-    });
-  }, [socket]);
-
-  const startPreviewCountdown = (seconds) => {
-    let time = seconds;
-    let interval = setInterval(() => {
-      setTimer(time);
-      if (time === 0) {
-        // console.log("player result at end of time: ", playerResult);
-
-        clearInterval(interval);
-        setIsPreviewScreen(false);
-        setTimeout(() => {
-          setIsQuestionScreen(true);
-        }, 500);
-      }
-      time--;
-    }, 1000);
-  };
-
   const startQuestionCountdown = (seconds) => {
     let time = seconds;
     let answerSeconds = 0;
     let interval = setInterval(() => {
       setTimer(time);
       setAnswerTime(answerSeconds);
-      if (time === 0 && answer.answers.length == 0) {
+      if (time === 0 && answer.answers.length === 0) {
         checkAnswer("a");
         clearInterval(interval);
         setIsQuestionScreen(false);
@@ -166,6 +123,60 @@ function GuestScreen() {
     }
   }, [answer?.answers.length, correctAnswerCount, answer, socket]);
 
+  useEffect(() => {
+    setTimer(5);
+    setTimeout(() => {
+      // setResult(playerResult?.answers[0]);
+    }, 1500);
+  }, []);
+
+  useEffect(() => {
+    socket.on("host-start-preview", () => {
+      setIsResultScreen(false);
+      startPreviewCountdown(5);
+      setIsPreviewScreen(true);
+    });
+    socket.on("host-start-question-timer", (time, question) => {
+      // console.log("player result at start: ", playerResult);
+      setQuestionData(question.answerList);
+      startQuestionCountdown(time);
+      setAnswer((prevstate) => ({
+        ...prevstate,
+        questionIndex: question.questionIndex,
+        answers: [],
+        time: 0,
+      }));
+      setCorrectAnswerCount(question.correctAnswersCount);
+    });
+    socket.on("game is over", (data) => {
+      console.log("game over done done done");
+      console.log("====================================");
+      console.log("leaderboard ", data);
+      console.log("====================================");
+      setCurrentLeaderboard(data);
+      setIsQuestionAnswered(false);
+      setIsResultScreen(false);
+      setIsGameOver(true);
+    });
+  }, [socket]);
+
+  const startPreviewCountdown = (seconds) => {
+    let time = seconds;
+    let interval = setInterval(() => {
+      setTimer(time);
+      if (time === 0) {
+        // console.log("player result at end of time: ", playerResult);
+
+        clearInterval(interval);
+        setIsPreviewScreen(false);
+        setTimeout(() => {
+          setIsQuestionScreen(true);
+        }, 500);
+      }
+      time--;
+    }, 1000);
+  };
+
   return (
     <div>
       <h2>Guest Screen</h2>
@@ -223,6 +234,23 @@ function GuestScreen() {
           <h1>Result</h1>
           <h3>{result?.points > 0 ? "Correct" : "Wrong"}</h3>
           <h3>Points: {result?.points}</h3>
+        </div>
+      )}
+      {isGameOver && (
+        <div>
+          <h1>Game Over</h1>
+          {currentLeaderboard?.leaderboardList
+            .sort((p1, p2) =>
+              p1.playerCurrentScore < p2.playerCurrentScore ? 1 : -1
+            )
+            .map((player, index) => {
+              if (
+                playerResult.score === player.playerCurrentScore &&
+                index == 0
+              )
+                return <h3>You are the Winner! </h3>;
+              else return <h3>Almost, GG</h3>;
+            })}
         </div>
       )}
     </div>

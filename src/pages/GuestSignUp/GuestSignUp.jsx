@@ -49,7 +49,7 @@ const GuestSignUp = () => {
     //   numberOfRights: 0,
     //   numberOfRightsInARow: 0,
     // };
-    console.log(guestId);
+    // console.log(guestId);
     let newGuest = {
       _id: guestId,
       guestName: username,
@@ -58,10 +58,10 @@ const GuestSignUp = () => {
     axios
       .post("/rooms/addplayer", { newGuest, roomCode })
       .then((res) => {
-        console.log(res.data.message);
+        // console.log(res.data.message);
         if (res.data.status === "success") {
-          console.log(res.data.message);
-          console.log("data ", res.data);
+          // console.log(res.data.message);
+          // console.log("data ", res.data);
           // navigate(`/room/guest/${res.data.room._id}`);
           socket.emit("add-player", {
             user: newGuest,
@@ -69,7 +69,7 @@ const GuestSignUp = () => {
           });
           setJoined(true);
         } else {
-          console.log(res.data.message);
+          // console.log(res.data.message);
         }
       })
       .catch((err) => {
@@ -137,9 +137,13 @@ const GuestSignUp = () => {
           </button>
           <Modal open={open} onClose={handleClose}>
             <div className="container mt-5 d-flex flex-column bg-primary">
-              {profilePictures.map((p) => {
+              {profilePictures.map((p, index) => {
                 return (
-                  <button className="btn" onClick={() => chooseImg(p.src)}>
+                  <button
+                    className="btn"
+                    key={`${index}23432`}
+                    onClick={() => chooseImg(p.src)}
+                  >
                     <img
                       src={p.url}
                       className="w-25 rounded-circle"

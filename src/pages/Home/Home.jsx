@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { notify } from "../../utils/functions";
 import "./Home.css"; // Import the CSS file
 import glass from "../../assets/glass-removebg-preview.png";
-import { addPlayer } from "../../actions/room";
 
 const Home = () => {
   const navigate = useNavigate();
   const [roomCode, setRoomCode] = useState();
-  const socket = useSelector((state) => state.socketReducer.socket);
 
   const JoinRoom = (e) => {
     e.preventDefault();
@@ -18,7 +15,7 @@ const Home = () => {
       .post("/rooms/enterroom", { roomCode: roomCode })
       .then((res) => {
         if (res.data.status === "success") {
-          console.log(res.data);
+          // console.log(res.data);
           notify("Joined Room, pick a username");
           localStorage.setItem("@guestId", res.data.guestId);
           navigate(`/guestsignup/${roomCode}`);
@@ -31,15 +28,6 @@ const Home = () => {
         console.log("error axios: ", err);
       });
   };
-
-  // const login = (e) => {
-  //   navigate("/login");
-  // };
-
-  // const createGame = (e) => {
-  //   e.preventDefault();
-  //   console.log("create game! comming soon");
-  // };
 
   return (
     <div className="all-container">
