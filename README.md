@@ -51,7 +51,6 @@ Third party libraries:
 - "socket.io-client": "^4.7.2",
 
 
- **WEATHERAPI & PEXELSAPI**
  
 
 ## License
